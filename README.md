@@ -165,3 +165,23 @@ A1: It is a serverless option in Amazon OpenSearch Service that allows developer
 
 #### How does source attribution benefit users?
 - It provides transparency by showing where the model retrieved the supporting information from.
+
+### 4. Building Model Invocation Chains
+#### What is the role of create_stuff_documents_chain?
+- It feeds the retrieved context into a prompt and LLM by "stuffing" all retrieved content into the prompt without summarization or processing.
+
+#### How does create_retrieval_chain enhance the process?
+- It adds a retrieval step, propagates the retrieved context through the chain, and outputs input, context, and answer together.
+
+## 03 - Model customization
+
+### 2. Fine-Tuning the Amazon Titan Text Model
+
+#### What are the key hyperparameters for customizing the Amazon Titan model?
+- epochs: Number of training iterations (1-10, default: 5).
+- batchSize: Number of samples processed per update (1-64, default: 1).
+- learningRate: Step size for updating model parameters (0.0-1.0, default: 1.00E-5).
+- learningRateWarmupSteps: Steps over which learning rate increases (0-250, default: 5).
+
+#### Why is fine-tuning useful?
+- It helps adapt the model to specific use cases by improving response accuracy and relevance based on training data.
