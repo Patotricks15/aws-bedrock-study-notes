@@ -185,3 +185,107 @@ A1: It is a serverless option in Amazon OpenSearch Service that allows developer
 
 #### Why is fine-tuning useful?
 - It helps adapt the model to specific use cases by improving response accuracy and relevance based on training data.
+
+### 3. Evaluating Model Performance
+#### What metric is used to evaluate fine-tuning performance?
+- BERTScore, which measures similarity between a generated summary and reference text using BERT embeddings.
+
+#### What is the purpose of BERTScore in evaluation?
+- It compares the fine-tuned model’s output with a base model to check if fine-tuning improved text quality.
+
+#### Why is BERTScore effective for evaluation?
+- It captures semantic meaning similarity rather than relying on exact word matching, making it more robust.
+
+## 05 - Agents
+
+### 1. Understanding Inline Agents
+#### What are Inline Agents in Amazon Bedrock?
+A1: Inline Agents are dynamically configurable AI assistants that can be modified in real time to adjust their behavior, capabilities, and knowledge base.
+
+#### How do Inline Agents differ from traditional static agents?
+A2: Unlike static agents, Inline Agents can be modified at runtime, allowing real-time adjustments to instructions, integrations, and responses.
+
+#### What are the key features of Inline Agents?
+- Dynamic configuration: Modify agent behavior on the fly.
+- Flexible integration: Connect to external APIs and services.
+- Contextual adaptation: Adjust responses based on user roles and scenarios.
+
+### 2. Benefits of Using Inline Agents
+#### Why are Inline Agents beneficial for AI applications?
+- Rapid prototyping: Test different configurations without redeploying.
+- Personalization: Customize responses and behavior in real time.
+- Scalability: Manage a single agent across multiple functions.
+- Cost-effectiveness: Optimize resource usage dynamically.
+
+#### How do Inline Agents contribute to cost efficiency?
+- They use only the necessary tools and knowledge per interaction, reducing computational costs.
+
+### 3. Invoking an Inline Agent
+#### How can an Inline Agent be invoked in Amazon Bedrock?
+- By using the InvokeInlineAgent API via the boto3 bedrock-agent-runtime client.
+
+#### What is the purpose of the invoke_inline_agent_helper function?
+- Processes agent trace requests for better readability.
+- Displays the code used by the interpreter.
+- Shows function invocations and knowledge base content.
+
+#### What additional metrics are provided when invoking an Inline Agent?
+- Invocation time (how long the request took).
+- Input and output tokens used during the interaction.
+
+## 06 Ragas Agent Evaluation
+
+### 1. Understanding Agent Goal Accuracy
+#### What is Agent Goal Accuracy?
+- It is a binary metric (0 or 1) that evaluates how well an LLM identifies and achieves user goals.
+
+#### How is Agent Goal Accuracy evaluated?
+- Using an evaluator LLM (e.g., Amazon Nova Pro) to assess whether the AI successfully accomplished the intended goal.
+
+### 2. Agent Goal Accuracy Variants
+#### What are the two types of Agent Goal Accuracy?
+- AgentGoalAccuracyWithoutReference – No predefined reference; evaluates based on inferred success from conversation context.
+- AgentGoalAccuracyWithReference – Compares AI’s response against a predefined reference outcome.
+#### When is AgentGoalAccuracyWithoutReference useful?
+- When explicit reference outcomes are unavailable, and the success criteria can be inferred from the conversation.
+
+####What additional input does AgentGoalAccuracyWithReference require?
+- user_input (the query or task).
+- reference outcome (the expected ideal result).
+#### What tool is used to encapsulate multi-turn conversations for evaluation?
+- The MultiTurnSample object in the ragas ecosystem.
+
+### 3. Agent Goal Accuracy Results & Observations
+#### What patterns were observed in different personas' evaluations?
+- Andrew’s conversations → High accuracy (1.0) due to focused, goal-oriented approach.
+- Jane’s conversations → Low accuracy (0.0) due to lack of historical information. The system fails to provide suggestions in a single conversation turn.
+#### How can Jane’s results be improved?
+- A human-in-the-loop approach asking for her interests could help provide better suggestions.
+
+#### How can results for AgentGoalAccuracyWithReference be influenced?
+- By adjusting either the conversation flow or the reference outcome, allowing greater flexibility in evaluation.
+
+### 4. Understanding Tool Call Accuracy
+#### What is Tool Call Accuracy?
+- A metric that evaluates how accurately the LLM identifies and invokes necessary tools to complete a task.
+
+#### What inputs are needed to calculate Tool Call Accuracy?
+- user_input (task or query).
+- reference_tool_calls (expected tool invocations).
+#### How is Tool Call Accuracy computed?
+- By comparing actual tool calls made by the AI against the annotated reference tool calls.
+
+#### Why is an evaluator LLM not required for Tool Call Accuracy?
+- Because it uses direct comparison between reference and actual tool calls instead of semantic evaluation.
+
+### 5. Tool Call Accuracy Evaluation Process
+#### How are conversations structured for evaluation?
+- Using the MultiTurnSample object in ragas to handle multi-turn conversations.
+
+#### What method is used to compare tool call arguments?
+- The NonLLMStringSimilarity metric, which leverages string distance measures like:
+  - Levenshtein
+  - Hamming
+  - Jaro
+#### Why is NonLLMStringSimilarity useful for this evaluation?
+- Because it compares tool arguments effectively without relying on an LLM for semantic understanding.
